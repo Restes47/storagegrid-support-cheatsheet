@@ -1,0 +1,110 @@
+StorageGrid Support Engineer SSH Cheat Sheet
+
+SSH Access
+Admin user: ssh admin@<admin-node-IP>
+Support user: ssh support@<admin-node-IP>
+
+Core Health & Status Commands
+Overall grid status: storagegrid-status
+Node health: sudo storagegrid node health
+List services: sudo storagegrid node services
+Appliance info: sudo storagegrid appliance info
+Appliance status: sudo storagegrid appliance status
+
+Service Control
+Status: sudo service <service-name> status
+Restart: sudo service <service-name> restart
+Common examples: sudo service nginx-gw restart sudo service storagegrid-nodeid restart
+
+System Information
+Version: cat /etc/storagegrid-release
+Uptime: uptime
+CPU/memory: top free -h
+Disk usage: df -h lsblk
+Hostname: hostname
+
+Network Troubleshooting
+Show IPs: ip addr show
+Routing: ip route
+Ping: ping <node-ip>
+StorageGrid network test: sudo storagegrid node network test <node-name>
+Hosts file: cat /etc/hosts
+DNS lookup: nslookup <hostname> dig <hostname>
+
+Log Viewing
+Live main log: tail -f /var/local/log/bycast.log
+Live server manager: tail -f /var/local/log/servermanager.log
+View recent entries: tail -n 100 /var/local/log/bycast.log
+Search errors: grep -i "error" /var/local/log/bycast.log
+Search for specific string: grep -i "s3|timeout|connection" /var/local/log/bycast.log
+Show 5 lines around match: grep -iC 5 "connection refused" /var/local/log/bycast.log
+Count errors: grep -c "error" /var/local/log/bycast.log
+
+Audit Logs
+Tail audit: tail -f /var/local/audit/export/audit.log
+Search audit entries: grep "SHEA|SLAU|SADD" /var/local/audit/export/audit.log
+View audit file: cat /var/local/audit/export/audit.log
+
+Support Bundle
+Generate support bundle: sudo /usr/local/scripts/create-support-bundle.sh
+
+Important Log Locations
+Main StorageGrid logs: /var/local/log/
+Main log: /var/local/log/bycast.log
+Server manager: /var/local/log/servermanager.log
+Audit logs: /var/local/audit/export/
+NMS logs: /var/local/log/nms.log
+SSM logs: /var/local/log/ssm.log
+Gateway/load balancer: /var/local/log/nginx-gw.log
+Grid Manager API: /var/local/log/management-api.log
+Prometheus: /var/local/log/prometheus.log
+Archived logs: /var/local/log/.gz /var/local/log/.1
+
+Common Troubleshooting Use Cases
+A. S3 Connection Issues
+
+Check service: sudo service nginx-gw status
+Search S3 errors: grep -i s3 /var/local/log/bycast.log
+SSL/cert check: grep -i "ssl|certificate|handshake" /var/local/log/bycast.log
+Tail live: tail -f /var/local/log/bycast.log | grep -i "error|timeout|connection"
+B. ILM / Data Placement Problems
+
+Search ILM/placement: grep -i "ilm|placement|replication" /var/local/log/bycast.log
+Audit message search: grep "ILMP|ILMF" /var/local/audit/export/audit.log
+C. Performance Bottlenecks
+
+Check CPU/memory: top free -h
+Check disk usage: df -h
+Monitor network: ifstat 1
+Check interface errors: ethtool -S <interface-name>
+D. Node Connectivity
+
+Show interfaces: ip link show
+Check IPs: ip addr show
+Test remote connectivity: sudo storagegrid node network test <remote-node-name>
+
+Quick Reference Commands
+Overall health: echo "=== Version ===" && cat /etc/storagegrid-release &&
+echo "=== Services ===" && sudo storagegrid-status &&
+echo "=== Disk Usage ===" && df -h /var/local/storage/objects &&
+echo "=== Recent Errors ===" && tail -n 20 /var/local/log/bycast.log | grep -i error
+
+Real-time monitor: tail -f /var/local/log/bycast.log | grep -i --color=auto "error|timeout|warning"
+
+Export logs: tar -czf storagegrid-logs.tar.gz /var/local/log/ /var/local/audit/export/
+
+Common Audit Log Codes
+SHEA = S3 HEAD request
+SLAU = S3 login attempt/user auth
+SADD = S3 ADD / PUT object
+SDEL = S3 DELETE object
+SGET = S3 GET object
+ILMX = ILM execution
+SARG = S3 arguments
+
+Best Practices
+Always collect logs before deeper troubleshooting
+Use timestamps to narrow search windows
+Use audit logs for permission, access, and object operations
+Use Grid Manager for alarms and health checks
+Create a support bundle when escalating to NetApp Support
