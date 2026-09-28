@@ -21,7 +21,7 @@ Grid Network - Connects everything together
 
 Key Concepts to Master
 ILM (Information Lifecycle Management) - Policies that automatically move/protect/delete data based on age, size, type, etc.
-Erasure Coding - Protec ts data across multiple nodes (like RAID but distributed)
+Erasure Coding - Protects data across multiple nodes (like RAID but distributed)
 Replication - Creates copies of data across sites
 Multi-tenancy - Multiple customers can have isolated storage buckets
 Grid Manager UI - Your main management dashboard
@@ -156,13 +156,15 @@ Review alert policies to match your SLAs
 Your Troubleshooting Checklist
 When you get a ticket:
 
-Gather Info: Customer deployment size, version, issue timeline, error messages
+Gather Info: 
+Customer deployment size, version, issue timeline, error messages
 Check Alarms: Grid Manager → Dashboard → current alerts?
 Review Logs: Collect logs for affected timeframe (Grid Manager → Support → Logs)
 Verify Health: All nodes online? All sites connected? Metrics normal?
 Isolate Scope: Is it config, performance, replication, or a bug?
 Test: Use simulation tools (ILM sim, S3 test connections)
 Document: Always capture reproduce steps and resolution for future reference
+
 Critical Skills to Develop
 Log analysis → You'll live in bycast.log and audit logs
 ILM policy debugging → Most configuration issues center here
@@ -170,6 +172,7 @@ Capacity planning → Advise on scaling before customers hit limits
 Network troubleshooting → MTU, firewalls, inter-site connectivity
 S3 API basics → Understand how clients interact with StorageGrid
 NetApp Active IQ → If integrated, use it for proactive alerts
+
 Resources to Bookmark
 StorageGRID Troubleshooting Docs (adjust version)
 ILM Troubleshooting Guide
@@ -177,9 +180,10 @@ S3 API & Audit Messages Reference
 NetApp Support Portal → Access KB articles, case management
 StorageGrid Release Notes → Bug fixes, known issues in each version
 
+
+
 A list of cli commands and logs including their location
 via SSH that i should know to support storagegrid
-
 
 SSH Access
 bash
@@ -235,6 +239,7 @@ lsblk
 
 # Hostname
 hostname
+
 Network Troubleshooting
 bash
 # Show IP addresses
@@ -297,9 +302,8 @@ grep "2024-09" /var/local/audit/export/audit.log
 Support Bundle Generation
 bash
 # Create a support bundle (logs + diagnostics)
-sudo /usr/local/scripts/create-support-bundle.sh
+sudo /usr/local/scripts/create-support-bundle.sh  # This creates a compressed archive with logs/diagnostics for NetApp Support
 
-# This creates a compressed archive with logs/diagnostics for NetApp Support
 Log File Locations (Via SSH)
 
 Log File	Path	Purpose
@@ -428,8 +432,6 @@ Archive logs if they're large (gzip) before downloading
 Check audit logs for security/permission issues (they're more detailed than bycast.log)
 Use grep with context (-B 5 -A 5) to understand error context
 Create support bundle when you need to escalate to NetApp (it includes everything)
-This should cover 95% of your day-to-day SSH troubleshooting needs! Would you like me to create a cheat sheet PDF or provide examples of analyzing specific error scenarios?
-
 
 
 StorageGrid Support Engineer SSH Cheat Sheet
@@ -437,6 +439,7 @@ StorageGrid Support Engineer SSH Cheat Sheet
 SSH Access
 Admin user: ssh admin@<admin-node-IP>
 Support user: ssh support@<admin-node-IP>
+
 Core Health & Status Commands
 Overall grid status: storagegrid-status
 Node health: sudo storagegrid node health
@@ -455,6 +458,7 @@ Uptime: uptime
 CPU/memory: top free -h
 Disk usage: df -h lsblk
 Hostname: hostname
+
 Network Troubleshooting
 Show IPs: ip addr show
 Routing: ip route
