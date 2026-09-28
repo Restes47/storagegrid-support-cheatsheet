@@ -1,5 +1,8 @@
 StorageGrid at a Glance
-StorageGrid is NetApp's enterprise object storage solution. Think of it as a distributed system for storing massive amounts of unstructured data (documents, images, videos, backups) with built-in security, high availability, and policy-driven management.
+StorageGrid is NetApp's enterprise object storage solution. 
+Think of it as a distributed system for storing massive amounts of 
+unstructured data (documents, images, videos, backups) with built-in security, 
+high availability, and policy-driven management.
 
 Why it matters:
 
@@ -51,8 +54,8 @@ Symptoms: Nodes won't join grid, network errors, connectivity alarms
 Causes: VLAN misconfiguration, firewalls blocking ports, wrong IPs/DNS, MTU issues
 Diagnosis: Grid Manager → Nodes → check network status, verify DNS, test inter-node connectivity
 Pro tip: Validate all network requirements (IPs, subnets, gateways, firewalls) BEFORE anything else
-S3/Swift Endpoint Issues
 
+S3/Swift Endpoint Issues
 Symptoms: Clients can't connect, auth failures, 403 Forbidden, 503 Service Unavailable
 Causes: Wrong endpoint config, SSL cert issues, invalid credentials, firewall blocking
 Diagnosis: Review endpoint config in Grid Manager, check cert validity, validate access/secret keys
